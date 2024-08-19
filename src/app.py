@@ -1,6 +1,8 @@
 import logging
 import threading
 import time, json
+import os
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from motifer import FastApiLogFactory 
@@ -63,5 +65,8 @@ if config["kafka"]["enabled"]:
 
 # Main section will not be called in production (e.g., Gunicorn or Uvicorn is recommended).
 if __name__ == "__main__":
-    import uvicorn
+    # Simple
     uvicorn.run(app, host="0.0.0.0", port=8081)
+    # With Log file - Not working Motifer error
+    # log_config_path = os.path.join("src", "configs", "gunicorn.conf")
+    # uvicorn.run(app, host="0.0.0.0", port=8081, log_config=log_config_path)   
