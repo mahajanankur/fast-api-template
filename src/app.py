@@ -15,6 +15,7 @@ from utils.kafka.processor1 import Topic1Processor
 from utils.kafka.processor2 import Topic2Processor
 from utils.kafka.processor3 import Topic3Processor
 from pyconman import ConfigLoader
+from utils.uvicorn_log_config import log_config
 
 # Load the configuration in the application scope.
 config = ConfigLoader.get_config()
@@ -42,6 +43,7 @@ def init():
     logger.info("Initialize all the consumers.")
     kafka_bootstrap_servers = config["kafka"]["uri"]
     kafka_group_id = "fastapi-group"
+    logger.info(f"Kafka bootstrap informations server = {kafka_bootstrap_servers} and group id = {kafka_group_id}")
     kafka_consumer_factory = KafkaConsumerFactory(kafka_bootstrap_servers, kafka_group_id)
 
     topics = [
@@ -65,8 +67,4 @@ if config["kafka"]["enabled"]:
 
 # Main section will not be called in production (e.g., Gunicorn or Uvicorn is recommended).
 if __name__ == "__main__":
-    # Simple
-    uvicorn.run(app, host="0.0.0.0", port=8081)
-    # With Log file - Not working Motifer error
-    # log_config_path = os.path.join("src", "configs", "gunicorn.conf")
-    # uvicorn.run(app, host="0.0.0.0", port=8081, log_config=log_config_path)   
+    uvicorn.run(app, host="0.0.0.0", port=8081, access_log=False, log_config=log_config)

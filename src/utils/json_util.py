@@ -1,5 +1,5 @@
 import logging
-logger = logging.getLogger("flask-app")
+logger = logging.getLogger("fastapi-app")
 
 class JsonUtils:
     @staticmethod

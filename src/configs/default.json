@@ -1,7 +1,7 @@
 {
     "prop1": "default_value_1",
     "prop2": "default_value_2",
-    "service": "flask-app",
+    "service": "fastapi-app",
     "kafka": {
         "enabled": false,
         "thread_group": "consumers",

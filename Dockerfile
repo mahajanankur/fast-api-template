@@ -1,6 +1,6 @@
 FROM python:3.8
-WORKDIR /home/flask-template
+WORKDIR /home/fastapi-template
 # WORKDIR /src
-COPY src/requirements.txt /home/flask-template
+COPY src/requirements.txt /home/fastapi-template
 RUN pip install -r requirements.txt
-COPY src /home/flask-template
+COPY src /home/fastapi-template
