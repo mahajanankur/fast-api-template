@@ -1,10 +1,13 @@
 import logging
+import logging.config
 import sys
 from pyconman import ConfigLoader
-config = ConfigLoader.get_config()
-service_name = config.get("service")
 
-log_config = {
+# Load configuration and get the service name
+config = ConfigLoader.get_config()
+service_name = config.get("service", "default-service")
+
+gunicorn_log_config = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
@@ -25,26 +28,21 @@ log_config = {
         "error_file": {
             "class": "logging.FileHandler",
             "formatter": "generic",
-            "filename": "/tmp/uvicorn.error.log",
+            "filename": "/tmp/gunicorn.error.log",
         },
         "access_file": {
             "class": "logging.FileHandler",
             "formatter": "access",
-            "filename": "/tmp/uvicorn.access.log",
+            "filename": "/tmp/gunicorn.access.log",
         },
     },
     "loggers": {
-        "uvicorn": {
-            "level": "INFO",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "uvicorn.error": {
+        "gunicorn.error": {
             "level": "INFO",
             "handlers": ["error_file"],
             "propagate": True,
         },
-        "uvicorn.access": {
+        "gunicorn.access": {
             "level": "INFO",
             "handlers": ["access_file"],
             "propagate": False,
@@ -56,5 +54,5 @@ log_config = {
     },
 }
 
-if __name__ == "__main__":
-    logging.config.dictConfig(log_config)
+# Apply the logging configuration
+logging.config.dictConfig(gunicorn_log_config)

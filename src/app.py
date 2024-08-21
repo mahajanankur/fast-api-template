@@ -15,7 +15,7 @@ from utils.kafka.processor1 import Topic1Processor
 from utils.kafka.processor2 import Topic2Processor
 from utils.kafka.processor3 import Topic3Processor
 from pyconman import ConfigLoader
-from utils.uvicorn_log_config import log_config
+from utils.logs.uvicorn_log_config import uvicorn_log_config
 
 # Load the configuration in the application scope.
 config = ConfigLoader.get_config()
@@ -67,4 +67,5 @@ if config["kafka"]["enabled"]:
 
 # Main section will not be called in production (e.g., Gunicorn or Uvicorn is recommended).
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8081, access_log=False, log_config=log_config)
+    uvicorn.run(app, host="0.0.0.0", port=8081, access_log=False, log_config=uvicorn_log_config)
+    # uvicorn.run(app, host="0.0.0.0", port=8081, access_log=False)
